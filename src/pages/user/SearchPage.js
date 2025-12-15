@@ -51,7 +51,7 @@ const renderCover = (p) => (
         )}
         {p.image ? (
             <img
-                src={`${process.env.REACT_APP_API_IMAGE}/${p.image}`}
+                src={`${p.image}`}
                 alt={p.name}
                 style={{ height: 160, objectFit: "cover", borderRadius: "12px 12px 0 0", width: "100%" }}
             />

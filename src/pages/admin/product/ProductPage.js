@@ -177,7 +177,7 @@ const ProductPage = () => {
                                 >
                                     <div style={{ display: 'flex', gap: 16 }}>
                                         <div style={{ width: 80, height: 80, backgroundColor: '#f0f0f0', borderRadius: 8, overflow: 'hidden' }}>
-                                            {product.image ? <img src={`http://localhost:5000/${product.image}`} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ color: '#aaa', fontSize: 12 }}>Không có</span>}
+                                            {product.image ? <img src={`${product.image}`} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ color: '#aaa', fontSize: 12 }}>Không có</span>}
                                         </div>
                                         <div>
                                             <p style={{ margin: 0, fontWeight: 600 }}>{product.name}</p>
@@ -227,7 +227,7 @@ const ProductPage = () => {
                         <Descriptions.Item label="Ảnh">
                             {viewingProduct.image ? (
                                 <img
-                                    src={`http://localhost:5000/${viewingProduct.image}`}
+                                    src={`${viewingProduct.image}`}
                                     alt="product"
                                     style={{
                                         width: 150,

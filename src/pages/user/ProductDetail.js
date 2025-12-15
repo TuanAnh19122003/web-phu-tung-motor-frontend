@@ -83,7 +83,7 @@ const ProductDetail = () => {
             <Toaster position="top-right" /> {/* Toast container */}
             <div style={{ flex: '0 0 400px' }}>
                 <img
-                    src={product.image ? `http://localhost:5000/${product.image}` : undefined}
+                    src={product.image ? `${product.image}` : undefined}
                     alt={product.name}
                     style={{ width: '100%', height: 400, objectFit: 'cover', borderRadius: 8, background: '#f0f0f0' }}
                     onError={(e) => { e.target.src = ''; e.target.style.background = '#f0f0f0'; e.target.alt = 'Chưa có ảnh'; }}

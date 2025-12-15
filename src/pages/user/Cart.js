@@ -67,7 +67,7 @@ const CartPage = () => {
             render: (product) => (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                     <Image
-                        src={`${API_URL}/${product.image}`}
+                        src={`${product.image}`}
                         alt={product.name}
                         width={60}
                         height={60}

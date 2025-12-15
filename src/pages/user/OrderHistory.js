@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { Table, Card, Spin, message } from 'antd';
 import axios from 'axios';
@@ -21,7 +22,7 @@ const OrderHistory = () => {
                 const user = JSON.parse(storedUser);
                 const userId = user.id;
 
-                const res = await axios.get(`${API_URL}/api/orders/user/${userId}/details`);
+                const res = await axios.get(`${API_URL}/orders/user/${userId}/details`);
                 setOrders(res.data.data);
             } catch (error) {
                 console.error(error);
@@ -32,7 +33,7 @@ const OrderHistory = () => {
         };
 
         fetchOrders();
-    }, [API_URL]);
+    }, []);
 
 
     const columns = [
@@ -80,7 +81,7 @@ const OrderHistory = () => {
                         <p><strong>Địa chỉ giao hàng:</strong> {order.shipping_address}</p>
                         <Table
                             columns={columns}
-                            dataSource={order.items.map((item) => ({
+                            dataSource={order.orderItems.map((item) => ({
                                 key: item.id,
                                 product: item.product.name,
                                 quantity: item.quantity,

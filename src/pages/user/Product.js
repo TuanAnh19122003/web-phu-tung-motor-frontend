@@ -68,89 +68,198 @@ const Product = () => {
     };
 
     return (
-        <div style={{ padding: 24 }}>
+        <div style={{ 
+            padding: '30px 20px',
+            background: '#f5f5f5',
+            minHeight: 'calc(100vh - 64px)'
+        }}>
             <Toaster position="top-right" /> {/* Component hiển thị toast */}
             <Row gutter={24}>
                 {/* Cột trái: Filters */}
                 <Col xs={24} md={6}>
-                    <Title level={4}>Lọc sản phẩm</Title>
-                    <Search
-                        placeholder="Tìm kiếm..."
-                        onSearch={(value) => setFilters({ ...filters, keyword: value })}
-                        style={{ marginBottom: 16 }}
-                    />
-                    <Title level={5}>Phân loại phụ tùng</Title>
-                    <Checkbox.Group
-                        options={categories}
-                        value={filters.category}
-                        onChange={(checked) => setFilters({ ...filters, category: checked })}
-                        style={{ display: 'flex', flexDirection: 'column', marginBottom: 16 }}
-                    />
-                    <Title level={5}>Giá sản phẩm</Title>
-                    <Slider
-                        range
-                        min={0}
-                        max={10000000}
-                        step={1000}
-                        value={filters.price}
-                        onChange={(value) => setFilters({ ...filters, price: value })}
-                        tooltipVisible
-                        style={{ marginBottom: 16 }}
-                    />
-                    <div>Giá: {filters.price[0].toLocaleString()}đ - {filters.price[1].toLocaleString()}đ</div>
+                    <div style={{
+                        background: '#fff',
+                        padding: 20,
+                        borderRadius: 12,
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                        position: 'sticky',
+                        top: 20
+                    }}>
+                        <Title level={4} style={{ marginBottom: 20, color: '#cf1322' }}>Lọc sản phẩm</Title>
+                        <Search
+                            placeholder="Tìm kiếm..."
+                            onSearch={(value) => setFilters({ ...filters, keyword: value })}
+                            style={{ marginBottom: 24 }}
+                            size="large"
+                        />
+                        <Title level={5} style={{ marginBottom: 12, fontSize: 15 }}>Phân loại phụ tùng</Title>
+                        <Checkbox.Group
+                            options={categories}
+                            value={filters.category}
+                            onChange={(checked) => setFilters({ ...filters, category: checked })}
+                            style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 24 }}
+                        />
+                        <Title level={5} style={{ marginBottom: 12, fontSize: 15 }}>Giá sản phẩm</Title>
+                        <Slider
+                            range
+                            min={0}
+                            max={10000000}
+                            step={100000}
+                            value={filters.price}
+                            onChange={(value) => setFilters({ ...filters, price: value })}
+                            tooltipVisible
+                            style={{ marginBottom: 16 }}
+                        />
+                        <div style={{ 
+                            color: '#666', 
+                            fontSize: 13,
+                            background: '#f5f5f5',
+                            padding: '8px 12px',
+                            borderRadius: 6
+                        }}>
+                            <strong>Giá:</strong> {formatCurrency(filters.price[0])} - {formatCurrency(filters.price[1])}
+                        </div>
+                    </div>
                 </Col>
 
                 {/* Cột phải: Products */}
                 <Col xs={24} md={18}>
-                    <Title level={4}>Tất cả sản phẩm</Title>
+                    <Title level={4} style={{ 
+                        marginBottom: 24,
+                        paddingBottom: 12,
+                        borderBottom: '2px solid #cf1322'
+                    }}>
+                        Tất cả sản phẩm
+                        <span style={{ 
+                            fontSize: 14, 
+                            color: '#999', 
+                            fontWeight: 'normal',
+                            marginLeft: 12
+                        }}>
+                            ({products.length} sản phẩm)
+                        </span>
+                    </Title>
                     {loading ? (
                         <div style={{ textAlign: 'center', padding: 40 }}>
                             <Spin size="large" />
                         </div>
                     ) : (
-                        <Row gutter={[16, 16]}>
+                        <Row gutter={[24, 24]}>
                             {products.map(p => (
                                 <Col xs={12} sm={8} md={6} key={p.id}>
                                     <Card
                                         hoverable
+                                        onClick={() => handleClickProduct(p)}
+                                        style={{
+                                            borderRadius: 12,
+                                            overflow: 'hidden',
+                                            transition: 'all 0.3s ease',
+                                            cursor: 'pointer',
+                                            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                                            height: '100%',
+                                            display: 'flex',
+                                            flexDirection: 'column'
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.transform = 'translateY(-8px)';
+                                            e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.2)';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.transform = 'translateY(0)';
+                                            e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+                                        }}
                                         cover={
-                                            p.image ? (
-                                                <img
-                                                    src={`${process.env.REACT_APP_API_IMAGE}/${p.image}`}
-                                                    alt={p.name}
-                                                    style={{ height: 150, objectFit: 'cover', cursor: 'pointer' }}
-                                                    onClick={() => handleClickProduct(p)}
-                                                />
-                                            ) : (
-                                                <div style={{
-                                                    height: 150,
-                                                    background: '#f0f0f0',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center',
-                                                    color: '#999',
-                                                    cursor: 'pointer'
-                                                }} onClick={() => handleClickProduct(p)}>
-                                                    Chưa có ảnh
-                                                </div>
-                                            )
+                                            <div style={{ position: 'relative' }}>
+                                                {p.discount && (
+                                                    <div style={{
+                                                        position: 'absolute',
+                                                        top: 8,
+                                                        left: 8,
+                                                        background: '#cf1322',
+                                                        color: '#fff',
+                                                        padding: '4px 8px',
+                                                        borderRadius: 6,
+                                                        fontSize: 12,
+                                                        fontWeight: 'bold',
+                                                        zIndex: 1
+                                                    }}>
+                                                        -{p.discount.percentage}%
+                                                    </div>
+                                                )}
+                                                {p.image ? (
+                                                    <img
+                                                        src={`${p.image}`}
+                                                        alt={p.name}
+                                                        style={{ 
+                                                            height: 180, 
+                                                            width: '100%',
+                                                            objectFit: 'cover'
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <div style={{
+                                                        height: 180,
+                                                        background: 'linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%)',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        color: '#999',
+                                                        fontSize: 14
+                                                    }}>
+                                                        Chưa có ảnh
+                                                    </div>
+                                                )}
+                                            </div>
                                         }
+                                        styles={{
+                                            body: { padding: 16, flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }
+                                        }}
                                     >
                                         <Card.Meta
-                                            title={<div style={{ cursor: 'pointer' }} onClick={() => handleClickProduct(p)}>{p.name}</div>}
+                                            title={
+                                                <div style={{ 
+                                                    fontSize: 14, 
+                                                    fontWeight: 500,
+                                                    marginBottom: 8,
+                                                    overflow: 'hidden',
+                                                    textOverflow: 'ellipsis',
+                                                    display: '-webkit-box',
+                                                    WebkitLineClamp: 2,
+                                                    WebkitBoxOrient: 'vertical',
+                                                    minHeight: 40
+                                                }}>
+                                                    {p.name}
+                                                </div>
+                                            }
                                             description={
-                                                p.discount ? (
-                                                    <div>
-                                                        <div style={{ textDecoration: 'line-through', color: '#888' }}>
-                                                            {formatCurrency(Number(p.originalPrice))}
+                                                <div style={{ marginTop: 8 }}>
+                                                    {p.discount ? (
+                                                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                                                            <span style={{ 
+                                                                textDecoration: 'line-through', 
+                                                                color: '#999',
+                                                                fontSize: 13
+                                                            }}>
+                                                                {formatCurrency(Number(p.originalPrice))}
+                                                            </span>
+                                                            <span style={{ 
+                                                                color: '#d4380d', 
+                                                                fontWeight: 'bold',
+                                                                fontSize: 16
+                                                            }}>
+                                                                {formatCurrency(Number(p.finalPrice))}
+                                                            </span>
                                                         </div>
-                                                        <div style={{ color: 'red', fontWeight: 'bold' }}>
-                                                            {formatCurrency(Number(p.finalPrice))}
-                                                        </div>
-                                                    </div>
-                                                ) : (
-                                                    p.price ? formatCurrency(Number(p.price)) : "Liên hệ"
-                                                )
+                                                    ) : (
+                                                        <span style={{ 
+                                                            color: p.price ? '#d4380d' : '#999',
+                                                            fontWeight: 'bold',
+                                                            fontSize: 16
+                                                        }}>
+                                                            {p.price ? formatCurrency(Number(p.price)) : "Liên hệ"}
+                                                        </span>
+                                                    )}
+                                                </div>
                                             }
                                         />
                                     </Card>

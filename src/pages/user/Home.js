@@ -64,7 +64,7 @@ const renderPrice = (p) => {
 const renderCover = (p) => (
     <div style={{ position: "relative" }}>
         {p.discount && <div style={{ position: "absolute", top: 8, left: 8, background: "#cf1322", color: "#fff", padding: "2px 6px", borderRadius: 6, fontSize: 12, fontWeight: "bold", zIndex: 1 }}>-{p.discount.percentage}%</div>}
-        {p.image ? <img src={`${process.env.REACT_APP_API_IMAGE}/${p.image}`} alt={p.name} style={{ height: 160, objectFit: "cover", borderRadius: "12px 12px 0 0", width: "100%" }} /> :
+        {p.image ? <img src={`${p.image}`} alt={p.name} style={{ height: 160, objectFit: "cover", borderRadius: "12px 12px 0 0", width: "100%" }} /> :
             <div style={{ height: 160, width: "100%", borderRadius: "12px 12px 0 0", background: "#f0f0f0", display: "flex", alignItems: "center", justifyContent: "center", color: "#999", fontSize: 14 }}>Chưa có ảnh</div>}
     </div>
 );
