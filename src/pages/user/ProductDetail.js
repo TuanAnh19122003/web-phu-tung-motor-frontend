@@ -7,6 +7,7 @@ import axios from 'axios';
 import { CartContext } from './CartContext';
 import toast, { Toaster } from 'react-hot-toast';
 import 'antd/dist/reset.css';
+import {formatCurrency} from '../../utils/helpers';
 
 const { Title, Paragraph } = Typography;
 const API_URL = process.env.REACT_APP_API_URL;
@@ -96,10 +97,10 @@ const ProductDetail = () => {
                 {product.discount ? (
                     <div style={{ marginBottom: 16 }}>
                         <div style={{ textDecoration: 'line-through', color: '#888', fontSize: 18 }}>
-                            {product.originalPrice?.toLocaleString()}đ
+                            {formatCurrency(Number(product.originalPrice))}đ
                         </div>
                         <div style={{ color: 'red', fontSize: 24, fontWeight: 'bold' }}>
-                            {product.finalPrice?.toLocaleString()}đ
+                            {formatCurrency(Number(product.finalPrice))}đ
                         </div>
                         <div style={{ fontSize: 14, color: '#555' }}>
                             Giảm giá: {product.discount.percentage}% ({product.discount.name})
@@ -107,7 +108,7 @@ const ProductDetail = () => {
                     </div>
                 ) : (
                     <div style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 16 }}>
-                        {product.price?.toLocaleString() || 'Liên hệ'}
+                        {formatCurrency(Number(product.price)) || 'Liên hệ'}
                     </div>
                 )}
 
