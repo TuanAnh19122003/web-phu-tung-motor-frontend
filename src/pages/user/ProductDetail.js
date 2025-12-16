@@ -97,10 +97,10 @@ const ProductDetail = () => {
                 {product.discount ? (
                     <div style={{ marginBottom: 16 }}>
                         <div style={{ textDecoration: 'line-through', color: '#888', fontSize: 18 }}>
-                            {formatCurrency(Number(product.originalPrice))}đ
+                            {formatCurrency(Number(product.originalPrice))}
                         </div>
                         <div style={{ color: 'red', fontSize: 24, fontWeight: 'bold' }}>
-                            {formatCurrency(Number(product.finalPrice))}đ
+                            {formatCurrency(Number(product.finalPrice))}
                         </div>
                         <div style={{ fontSize: 14, color: '#555' }}>
                             Giảm giá: {product.discount.percentage}% ({product.discount.name})
